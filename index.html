@@ -3,27 +3,138 @@
 <head>
 <meta charset="UTF-8">
 <title>Forever With Me 🌸</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-/* ---------- GENERAL ---------- */
-body, html {margin:0; padding:0; height:100%; overflow:hidden; font-family:'Georgia', serif;}
-#bg {position:fixed; top:0; left:0; width:100%; height:100%; background-size:cover; background-position:center; transition: background-image 2s ease-in-out;}
-.overlay {position:absolute; width:100%; height:100%; background: linear-gradient(to top, rgba(0,0,0,0.5), rgba(255,182,193,0.2));}
+/* ---------------- GENERAL ---------------- */
+html,body{
+  margin:0; padding:0; height:100%;
+  font-family:'Georgia', serif;
+  overflow:hidden;
+}
 
-/* ---------- CARD & BUTTONS ---------- */
-.card {position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(255,255,255,0.2); backdrop-filter:blur(15px); border-radius:25px; padding:40px; text-align:center; color:white;}
-button {padding:15px 30px; font-size:18px; border:none; border-radius:30px; cursor:pointer; margin:10px; transition:0.3s;}
-#yes {background:pink; color:white;}
-#no {background:white; color:black; position:relative;}
+#bg{
+  position:fixed; inset:0;
+  background-size:cover;
+  background-position:center;
+  transition:opacity 1.5s ease;
+}
 
-/* ---------- PETALS & SPARKLES ---------- */
-.petal, .sparkle {position:absolute; border-radius:50%;}
-.petal {width:20px; height:20px; background:pink; opacity:0.7; animation:fall linear infinite;}
-@keyframes fall {to{transform:translateY(100vh) rotate(360deg);}}
-.sparkle {width:8px; height:8px; background:rgba(255,255,255,0.8); pointer-events:none; animation:spark 1s linear forwards;}
-@keyframes spark {0%{opacity:1; transform:scale(1);} 100%{opacity:0; transform:scale(2);}}
+.overlay{
+  position:fixed; inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.55),rgba(255,182,193,.2));
+}
 
-#finalMessage{margin-top:20px; font-size:20px; min-height:50px;}
-#game{display:none; margin-top:20px;}
+/* ---------------- CARD ---------------- */
+.card{
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(255,255,255,.18);
+  backdrop-filter:blur(14px);
+  border-radius:22px;
+  padding:26px 24px;
+  text-align:center;
+  color:white;
+  max-width:92vw;
+  width:420px;
+  box-shadow:0 0 30px rgba(255,255,255,.15);
+}
+
+/* ---------------- TEXT ---------------- */
+h1{font-size:1.5rem;margin-top:0}
+#finalMessage{
+  min-height:80px;
+  font-size:1.05rem;
+  line-height:1.5;
+  opacity:0;
+  transition:opacity .8s ease;
+}
+
+/* ---------------- INPUTS ---------------- */
+input,textarea{
+  border-radius:12px;
+  border:none;
+  padding:10px;
+  width:90%;
+  max-width:320px;
+}
+
+/* ---------------- BUTTONS ---------------- */
+button{
+  padding:12px 22px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  font-size:16px;
+  margin:8px;
+}
+#yes{background:#ff9acb;color:white;}
+#no{background:white;color:black;position:relative;}
+
+button:focus{outline:2px solid white}
+
+/* ---------------- PROGRESS ---------------- */
+#progressWrap{
+  position:fixed;
+  top:0; left:0;
+  width:100%;
+  height:6px;
+  background:rgba(255,255,255,.2);
+  z-index:5;
+}
+#progress{
+  height:100%;
+  width:0%;
+  background:pink;
+  transition:width .5s linear;
+}
+
+/* ---------------- PETALS ---------------- */
+.petal{
+  position:absolute;
+  width:14px;height:14px;
+  background:pink;
+  opacity:.6;
+  border-radius:50%;
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(360deg);}
+}
+
+/* ---------------- SPARKLES ---------------- */
+.sparkle{
+  position:absolute;
+  width:6px;height:6px;
+  border-radius:50%;
+  background:white;
+  opacity:.8;
+  pointer-events:none;
+  animation:spark .8s forwards;
+}
+@keyframes spark{
+  to{opacity:0;transform:scale(2);}
+}
+
+/* ---------------- END SCREEN ---------------- */
+#ending{
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  color:white;
+  font-size:1.2rem;
+  backdrop-filter:blur(4px);
+}
+
+/* ---------------- MOBILE ---------------- */
+@media(max-width:480px){
+  h1{font-size:1.25rem;}
+  #finalMessage{font-size:.95rem;}
+}
 </style>
 </head>
 <body>
@@ -31,149 +142,376 @@ button {padding:15px 30px; font-size:18px; border:none; border-radius:30px; curs
 <div id="bg"></div>
 <div class="overlay"></div>
 
+<div id="progressWrap"><div id="progress"></div></div>
+
 <div class="card" id="card">
-<h1 id="greeting">Will You Be Mine Forever? 🌸</h1>
+
+<h1 id="greeting">Will You Stay In My Story? 🌸</h1>
 
 <div id="nameInput">
-<p>Sender Name:</p><input type="text" id="senderName"><br><br>
-<p>Receiver Name:</p><input type="text" id="receiverName"><br><br>
-<p>Sender Birthday:</p><input type="date" id="birthday"><br><br>
-<button onclick="startGame()">Start 💖</button>
+<label>Sender name</label><br>
+<input id="senderName"><br><br>
+
+<label>Receiver name</label><br>
+<input id="receiverName"><br><br>
+
+<label>Special day</label><br>
+<input type="date" id="birthday"><br><br>
+
+<button id="startBtn">Start 💖</button>
 </div>
 
-<div id="buttons" style="display:none;">
+<div id="buttons" style="display:none">
 <button id="yes">Yes 💖</button>
 <button id="no">No 🙈</button>
+
 <div id="finalMessage"></div>
+
 <br>
-<button onclick="playVoice()">🔊 Play My Voice</button>
+<button id="voiceBtn">🔊 Play my voice</button>
+<span id="voiceStatus"></span>
 </div>
 
-<div id="game">
-  <br><br>
-<textarea id="receiverFeelings" placeholder="Write your feelings here..." style="width:80%;height:80px;border-radius:15px;padding:10px;"></textarea>
-<br><br>
-<button onclick="saveFeelings()">Save Our Moment 💍</button>
-<h2 id="receiverMessage">Do you want to confess your feelings too?</h2>
-<button id="loveYes">I Love You Too 💕</button>
-<button id="loveNo">Maybe Later 😳</button>
+<div id="game" style="display:none">
+<br>
+<textarea id="receiverFeelings" placeholder="Write your feelings here..."></textarea><br><br>
+<button id="saveBtn">Save our moment 💍</button>
+
+<h2 id="receiverMessage">Do you want to say something too?</h2>
+<button id="loveYes">I like you too 💕</button>
+<button id="loveNo">Maybe later 🌸</button>
 </div>
 
-<audio id="music" src="obhodro.mp3" autoplay loop></audio>
+</div>
+
+<div id="ending">
+  <div>
+    Thank you for staying until the end 🌸<br>
+    Your moment is safely saved.
+  </div>
+</div>
+
+<audio id="music" src="obhodro.mp3" loop></audio>
+<audio id="voice" src="voice.mp3"></audio>
 
 <script>
-  function saveFeelings(){
-let text = document.getElementById("receiverFeelings").value;
-if(text.trim() !== ""){
-  typeWriter(`${receiver} says: "${text}" 💖`);
-  fireworks();
-  heartBurst();
-} else {
-  typeWriter("Even silence between us feels special... 🌸");
+/* ======================================================
+   STATE
+====================================================== */
+let sender="",receiver="",birthday="";
+let sparkleLock=false;
+let petals=[];
+let storyRunning=false;
+
+/* ======================================================
+   INDIA BACKGROUNDS + THEMES
+====================================================== */
+const themes=[
+{
+ name:"Taj",
+ img:"https://source.unsplash.com/1600x900/?taj,mahal,agra,india",
+ overlay:"rgba(255,182,193,.2)"
+},
+{
+ name:"Varanasi",
+ img:"https://source.unsplash.com/1600x900/?varanasi,ghats,ganges,india",
+ overlay:"rgba(255,200,150,.18)"
+},
+{
+ name:"Munnar",
+ img:"https://source.unsplash.com/1600x900/?munnar,tea,plantation,kerala,india",
+ overlay:"rgba(180,255,200,.15)"
+},
+{
+ name:"Hawa",
+ img:"https://source.unsplash.com/1600x900/?hawa,mahal,jaipur,india",
+ overlay:"rgba(255,210,210,.18)"
+},
+{
+ name:"Dal",
+ img:"https://source.unsplash.com/1600x900/?dal,lake,srinagar,india",
+ overlay:"rgba(180,210,255,.18)"
 }
-}
-// ---------- MULTIPLE THEMES ----------
-const themes=['themes/cherry.jpg','themes/sunset.jpg','themes/retro.jpg','themes/traditional.jpg'];
-let idx=0; const bg=document.getElementById('bg');
-function changeBackground(){bg.style.backgroundImage=`url('${themes[idx]}')`; idx=(idx+1)%themes.length;}
-changeBackground(); setInterval(changeBackground,10000);
-
-// ---------- PETALS ----------
-for(let i=0;i<25;i++){let p=document.createElement("div");p.className="petal";p.style.left=Math.random()*100+"vw";p.style.animationDuration=(5+Math.random()*5)+"s";p.style.width=p.style.height=(10+Math.random()*15)+"px";document.body.appendChild(p);}
-
-// ---------- SPARKLE MOUSE ----------
-document.addEventListener('mousemove',(e)=>{let s=document.createElement('div');s.className='sparkle';s.style.left=e.pageX+'px';s.style.top=e.pageY+'px';document.body.appendChild(s);setTimeout(()=>s.remove(),1000);});
-
-// ---------- GAME START ----------
-let sender='',receiver='',birthday='';
-function startGame(){
-sender=document.getElementById('senderName').value||'You';
-receiver=document.getElementById('receiverName').value||'Someone Special';
-birthday=document.getElementById('birthday').value||'';
-document.getElementById('nameInput').style.display='none';
-document.getElementById('buttons').style.display='block';
-let greet=`Hey ${receiver}, ${sender} has a special message 💖`;
-if(birthday) greet+=` (From ${sender}'s birthday: ${birthday})`;
-document.getElementById('greeting').innerText=greet;
-}
-
-// ---------- BUTTONS ----------
-const noBtn=document.getElementById('no'); const yesBtn=document.getElementById('yes');
-noBtn.addEventListener('mouseover',()=>{
-  noBtn.style.position='absolute';
-  noBtn.style.left=Math.random()*(window.innerWidth-100)+'px';
-  noBtn.style.top=Math.random()*(window.innerHeight-50)+'px';
-  noBtn.style.transform='scale(0.6)';
-  yesBtn.style.transform='scale(1.3)';
-  document.getElementById('music').play();
-});
-
-yesBtn.addEventListener('click',()=>{
-document.getElementById('voice').play();
-startLoveStory();
-});
-  function startLoveStory(){
-
-let scenes = [
-`The day I met you, something felt different... 🌸`,
-`Every moment with you feels softer, warmer, brighter... ✨`,
-`${receiver}, you changed my world in ways you don't even know...`,
-`From ${sender}'s heart... since ${birthday || "that special day"}...`,
-`I don't want just today... I want every tomorrow with you 💖`,
-`So here I am... choosing you. Again. And again. Forever.`
 ];
 
-let i = 0;
-let msg = document.getElementById("finalMessage");
+let themeIndex=0;
+const bg=document.getElementById("bg");
+const overlay=document.querySelector(".overlay");
 
-function nextScene(){
-  if(i < scenes.length){
-    typeWriter(scenes[i]);
-    heartBurst();
-    setTimeout(()=>{
-      i++;
-      nextScene();
-    },5000);
-  } else {
-    setTimeout(()=>{
-      fireworks();
-      loveMeter();
-      document.getElementById('game').style.display='block';
-    },3000);
+function changeTheme(){
+  bg.style.opacity=0;
+  setTimeout(()=>{
+    bg.style.backgroundImage=`url('${themes[themeIndex].img}')`;
+    overlay.style.background=
+      `linear-gradient(to top,rgba(0,0,0,.55),${themes[themeIndex].overlay})`;
+    bg.style.opacity=1;
+    themeIndex=(themeIndex+1)%themes.length;
+  },700);
+}
+changeTheme();
+setInterval(()=>{ if(!endingShown) changeTheme(); },12000);
+
+/* ======================================================
+   PETALS POOL (PERFORMANCE SAFE)
+====================================================== */
+function initPetals(){
+  for(let i=0;i<18;i++){
+    let p=document.createElement("div");
+    p.className="petal";
+    resetPetal(p);
+    document.body.appendChild(p);
+    petals.push(p);
   }
 }
+function resetPetal(p){
+  p.style.left=Math.random()*100+"vw";
+  p.style.top=(-20-Math.random()*100)+"px";
+  p.style.animationDuration=(8+Math.random()*6)+"s";
+}
+initPetals();
 
-nextScene();
+/* ======================================================
+   SPARKLES (THROTTLED)
+====================================================== */
+let lastSpark=0;
+document.addEventListener("mousemove",e=>{
+  if(Date.now()-lastSpark<40 || sparkleLock) return;
+  lastSpark=Date.now();
+  let s=document.createElement("div");
+  s.className="sparkle";
+  s.style.left=e.pageX+"px";
+  s.style.top=e.pageY+"px";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),800);
+});
+
+/* ======================================================
+   AUDIO MANAGER
+====================================================== */
+const music=document.getElementById("music");
+const voice=document.getElementById("voice");
+const voiceBtn=document.getElementById("voiceBtn");
+const voiceStatus=document.getElementById("voiceStatus");
+
+function fadeInMusic(){
+  music.volume=0;
+  music.play();
+  let v=0;
+  let i=setInterval(()=>{
+    v+=0.05;
+    music.volume=Math.min(v,0.6);
+    if(v>=0.6) clearInterval(i);
+  },150);
 }
 
-// ---------- TYPEWRITER ----------
-function typeWriter(text){let i=0;let speed=50;let msg=document.getElementById('finalMessage');msg.innerHTML="";function typing(){if(i<text.length){msg.innerHTML+=text.charAt(i);i++;setTimeout(typing,speed);}}typing();}
-
-// ---------- HEART BURST ----------
-function heartBurst(){for(let i=0;i<20;i++){let heart=document.createElement('div');heart.innerHTML='💖';heart.style.position='absolute';heart.style.left=Math.random()*window.innerWidth+'px';heart.style.top=Math.random()*window.innerHeight+'px';heart.style.fontSize=(20+Math.random()*20)+'px';document.body.appendChild(heart);setTimeout(()=>heart.remove(),2000);}}
-
-// ---------- FIREWORKS ----------
-function fireworks(){for(let i=0;i<15;i++){let f=document.createElement('div');f.innerHTML='✨';f.style.position='absolute';f.style.left=Math.random()*window.innerWidth+'px';f.style.top=Math.random()*window.innerHeight+'px';f.style.fontSize=(20+Math.random()*30)+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),2000);}}
-
-// ---------- LOVE METER ----------
-function loveMeter(){let meter=document.createElement('div'); meter.style.position='fixed'; meter.style.bottom='20px'; meter.style.left='50%'; meter.style.transform='translateX(-50%)'; meter.style.width='300px'; meter.style.height='20px'; meter.style.background='rgba(255,255,255,0.3)'; meter.style.borderRadius='10px'; document.body.appendChild(meter);
-let fill=document.createElement('div'); fill.style.height='100%'; fill.style.width='0%'; fill.style.background='pink'; fill.style.borderRadius='10px'; fill.style.transition='width 3s'; meter.appendChild(fill); setTimeout(()=>fill.style.width='100%',100); setTimeout(()=>meter.remove(),4000);}
-
-// ---------- VOICE ----------
-function playVoice(){document.getElementById('voice').play();}
-
-// ---------- MINI GAME ----------
-const loveYes=document.getElementById('loveYes'); const loveNo=document.getElementById('loveNo'); const receiverMessage=document.getElementById('receiverMessage');
-loveYes.addEventListener('click',()=>{
-receiverMessage.innerText=`Yay! ${receiver} 💖 loves you too, ${sender}! 🌸`;
-heartBurst(); fireworks(); typeWriter(`${receiver} says: I love you too! 💕`);
+voiceBtn.addEventListener("click",()=>{
+  voiceBtn.disabled=true;
+  voiceStatus.textContent=" Playing…";
+  music.volume=0.25;
+  voice.play();
 });
 
-loveNo.addEventListener('click',()=>{
-receiverMessage.innerText=`Oh... maybe next time 💔`;
-typeWriter(`${receiver} says: Maybe later 😳`);
-});
+voice.onended=()=>{
+  voiceBtn.disabled=false;
+  voiceStatus.textContent="";
+  music.volume=0.6;
+};
 
+/* ======================================================
+   START
+====================================================== */
+document.getElementById("startBtn").onclick=()=>{
+  sender=clean(document.getElementById("senderName").value)||"You";
+  receiver=clean(document.getElementById("receiverName").value)||"Someone special";
+  birthday=document.getElementById("birthday").value||"a special day";
+
+  document.getElementById("nameInput").style.display="none";
+  document.getElementById("buttons").style.display="block";
+  document.getElementById("greeting").innerText=
+    `Hey ${receiver}, ${sender} has something for you 🌸`;
+
+  fadeInMusic();
+};
+
+/* ======================================================
+   NO BUTTON FUN
+====================================================== */
+const noBtn=document.getElementById("no");
+const yesBtn=document.getElementById("yes");
+
+noBtn.onmouseover=()=>{
+  noBtn.style.left=Math.random()*(window.innerWidth-100)+"px";
+  noBtn.style.top=Math.random()*(window.innerHeight-50)+"px";
+};
+
+/* ======================================================
+   STORY
+====================================================== */
+yesBtn.onclick=()=>{
+  if(storyRunning) return;
+  storyRunning=true;
+  startStory();
+};
+
+const scenes=[
+"I didn’t notice it at first…",
+"But something about you stayed in my mind.",
+"Not loudly… just quietly.",
+"Little moments started to feel important.",
+"Simple conversations felt warmer.",
+"Your smile made ordinary days lighter.",
+"Your presence made places feel calmer.",
+"Being around you felt natural.",
+"Like I didn’t have to pretend.",
+"Or try harder than I already do.",
+"From small laughs…",
+"To quiet understanding…",
+"I slowly felt comfortable being myself.",
+`${receiver}, you bring a gentle kind of happiness.`,
+"A kind that doesn’t rush.",
+"A kind that stays.",
+`From ${sender}'s heart…`,
+`Since ${birthday}…`,
+"I started appreciating small things more.",
+"Your kindness.",
+"Your patience.",
+"The way you notice little details.",
+"You don’t try to be special.",
+"You simply are.",
+"And if I’m honest…",
+"I would love more days like this.",
+"More smiles like yours.",
+"More moments like today.",
+"Nothing dramatic.",
+"Nothing rushed.",
+"Just something real.",
+"And something kind. 🌸"
+];
+
+let sceneIndex=0;
+const finalMsg=document.getElementById("finalMessage");
+const progress=document.getElementById("progress");
+
+function startStory(){
+  nextScene();
+}
+
+function nextScene(){
+  if(sceneIndex>=scenes.length){
+    finishStory();
+    return;
+  }
+
+  progress.style.width=
+   ((sceneIndex/scenes.length)*100)+"%";
+
+  fadeText(()=>{
+    typeWriter(scenes[sceneIndex],()=>{
+      sceneIndex++;
+      setTimeout(nextScene,5000);
+    });
+  });
+}
+
+function fadeText(cb){
+  finalMsg.style.opacity=0;
+  setTimeout(()=>{
+    finalMsg.innerHTML="";
+    finalMsg.style.opacity=1;
+    cb();
+  },600);
+}
+
+function typeWriter(text,done){
+  let i=0;
+  finalMsg.innerHTML="";
+  function t(){
+    if(i<text.length){
+      finalMsg.innerHTML+=text.charAt(i++);
+      setTimeout(t,40);
+    }else{
+      done&&done();
+    }
+  }
+  t();
+}
+
+/* ======================================================
+   ENDING
+====================================================== */
+let endingShown=false;
+
+function finishStory(){
+  progress.style.width="100%";
+  document.getElementById("game").style.display="block";
+}
+
+/* ======================================================
+   MINI GAME + SAVE
+====================================================== */
+const loveYes=document.getElementById("loveYes");
+const loveNo=document.getElementById("loveNo");
+const receiverMessage=document.getElementById("receiverMessage");
+
+loveYes.onclick=()=>{
+  receiverMessage.innerText=
+   `${receiver} feels happy sharing this moment with you 🌸`;
+};
+
+loveNo.onclick=()=>{
+  receiverMessage.innerText=
+   `That's completely okay. Take your time 🌼`;
+};
+
+document.getElementById("saveBtn").onclick=()=>{
+  const text=clean(
+    document.getElementById("receiverFeelings").value
+  );
+
+  const data={
+    sender,receiver,text,
+    date:new Date().toLocaleString()
+  };
+  localStorage.setItem("loveMoment",JSON.stringify(data));
+  showEnding();
+};
+
+/* ======================================================
+   END SCREEN
+====================================================== */
+function showEnding(){
+  sparkleLock=true;
+  endingShown=true;
+  music.volume=0.25;
+  document.getElementById("ending").style.display="flex";
+}
+
+/* ======================================================
+   SANITIZE
+====================================================== */
+function clean(str){
+  return (str||"").replace(/[<>]/g,"");
+}
+
+/* ======================================================
+   LOAD SAVED
+====================================================== */
+window.onload=()=>{
+  const saved=localStorage.getItem("loveMoment");
+  if(saved){
+    const d=JSON.parse(saved);
+    document.getElementById("greeting").innerText=
+     `Your last saved moment with ${d.receiver} 🌸`;
+  }
+};
+
+/* ======================================================
+   ACCESSIBILITY
+====================================================== */
+document.addEventListener("keydown",e=>{
+  if(e.key==="y") yesBtn.click();
+  if(e.key==="n") noBtn.dispatchEvent(new Event("mouseover"));
+});
 </script>
 </body>
 </html>
