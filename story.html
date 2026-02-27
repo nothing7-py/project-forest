@@ -3,25 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <title>Our Forest Story 🌿</title>
-<link rel="stylesheet" href="css/style.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div id="introScreen">
-  <h1 class="introText">A FOREST STORY</h1>
+<div class="slider" id="slider">
+
+  <div class="slide" style="background-image:url('bg1.jpg')">
+    <div class="content">Welcome to our story 🌿</div>
+  </div>
+
+  <div class="slide" style="background-image:url('bg2.jpg')">
+    <div class="content">Every moment with you feels calm.</div>
+  </div>
+
+  <div class="slide" style="background-image:url('bg3.jpg')">
+    <div class="content">You are my safe place.</div>
+  </div>
+
+  <div class="slide" style="background-image:url('bg4.jpg')">
+    <div class="content">My favorite person.</div>
+  </div>
+
+  <div class="slide" style="background-image:url('bg5.jpg')">
+    <div class="content">My peace.</div>
+  </div>
+
+  <div class="slide" style="background-image:url('bg6.jpg')">
+    <div class="content">My happiness.</div>
+  </div>
+
+  <div class="slide" style="background-image:url('bg7.jpg')">
+    <div class="content">My comfort.</div>
+  </div>
+
+  <div class="slide" style="background-image:url('bg8.jpg')">
+    <div class="content">My favorite memory.</div>
+  </div>
+
+  <div class="slide" style="background-image:url('bg9.jpg')">
+    <div class="content">My today and tomorrow.</div>
+  </div>
+
+  <div class="slide" style="background-image:url('bg10.jpg')">
+    <div class="content">And now…</div>
+  </div>
+
+  <div class="slide" style="background-image:url('bg11.jpg')">
+    <div class="content">
+      Will you be mine? 💚<br><br>
+      <button id="yes">Yes</button>
+      <button id="no">No</button>
+    </div>
+  </div>
+
 </div>
 
-<div class="progress-bar">
-  <div id="progress"></div>
-</div>
-
-<div class="story-container" id="pages"></div>
-
-<audio id="mainMusic" src="obhodro.mp3" loop></audio>
-<audio id="finalMusic" src="shinunoga.mp3"></audio>
+<audio id="music" src="obhodro.mp3" loop></audio>
 
 <script src="story.js"></script>
-<script src="certificate.js"></script>
+
 </body>
 </html>
