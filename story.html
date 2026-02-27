@@ -1,67 +1,64 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Our Forest Story 🌿</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
+let currentSlide = 0;
+const slides = document.querySelectorAll(".slide");
+const totalSlides = slides.length;
+const slider = document.getElementById("slider");
+const music = document.getElementById("music");
 
-<div class="slider" id="slider">
+let started = false;
 
-  <div class="slide" style="background-image:url('bg1.jpeg')">
-    <div class="content">Welcome to our story 🌿</div>
-  </div>
+// Auto slide function
+function showSlide(index) {
+  slider.style.transform = `translateX(-${index * 100}vw)`;
+}
 
-  <div class="slide" style="background-image:url('bg2.jpeg')">
-    <div class="content">Every moment with you feels calm.</div>
-  </div>
+// Auto play slides every 4 seconds
+function autoSlide() {
+  setInterval(() => {
+    if (currentSlide < totalSlides - 1) {
+      currentSlide++;
+      showSlide(currentSlide);
+    }
+  }, 4000);
+}
 
-  <div class="slide" style="background-image:url('bg3.jpeg')">
-    <div class="content">You are my safe place.</div>
-  </div>
+// Start music on first interaction (browser policy safe)
+document.body.addEventListener("click", function () {
+  if (!started) {
+    music.play().catch(() => {});
+    started = true;
+  }
+});
 
-  <div class="slide" style="background-image:url('bg4.jpeg')">
-    <div class="content">My favorite person.</div>
-  </div>
+// YES button
+document.addEventListener("click", function (e) {
+  if (e.target.id === "yes") {
+    slider.innerHTML = `
+      <div class="slide" style="background:#0b3d0b; color:white;">
+        <div class="content">
+          💚 You just made this the best story ever 💚<br><br>
+          Forever starts now 🌿
+        </div>
+      </div>
+    `;
+  }
+});
 
-  <div class="slide" style="background-image:url('bg5.jpeg')">
-    <div class="content">My peace.</div>
-  </div>
+// NO button runs away 😄
+document.addEventListener("mouseover", function (e) {
+  if (e.target.id === "no") {
+    const btn = e.target;
+    const maxX = window.innerWidth - btn.offsetWidth;
+    const maxY = window.innerHeight - btn.offsetHeight;
 
-  <div class="slide" style="background-image:url('bg6.jpeg')">
-    <div class="content">My happiness.</div>
-  </div>
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
 
-  <div class="slide" style="background-image:url('bg7.jpeg')">
-    <div class="content">My comfort.</div>
-  </div>
+    btn.style.position = "absolute";
+    btn.style.left = randomX + "px";
+    btn.style.top = randomY + "px";
+  }
+});
 
-  <div class="slide" style="background-image:url('bg8.jpeg')">
-    <div class="content">My favorite memory.</div>
-  </div>
-
-  <div class="slide" style="background-image:url('bg9.jpeg')">
-    <div class="content">My today and tomorrow.</div>
-  </div>
-
-  <div class="slide" style="background-image:url('bg10.jpeg')">
-    <div class="content">And now…</div>
-  </div>
-
-  <div class="slide" style="background-image:url('bg11.jpeg')">
-    <div class="content">
-      Will you be mine? 💚<br><br>
-      <button id="yes">Yes</button>
-      <button id="no">No</button>
-    </div>
-  </div>
-
-</div>
-
-<audio id="music" src="obhodro.mp3" loop></audio>
-
-<script src="story.js"></script>
-
-</body>
-</html>
+// Initialize first slide
+showSlide(currentSlide);
+autoSlide();
