@@ -1,63 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Our Forest Love Story 🌿</title>
+<title>Proposal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="style.css">
 </head>
-<body class="story">
+<body>
 
-<div id="storyContainer"></div>
+<div id="app">
 
-<script>
-function getStoryData() {
-  const params = new URLSearchParams(window.location.search);
-  const encoded = params.get("data");
+  <div id="slides"></div>
 
-  if (!encoded) {
-    document.getElementById("storyContainer").innerHTML =
-      "<h2>No story found 🌿</h2>";
-    return;
-  }
+  <div class="nav">
+    <button id="prev">Prev</button>
+    <button id="next">Next</button>
+  </div>
 
-  try {
-    const decoded = JSON.parse(
-      decodeURIComponent(atob(encoded))
-    );
+</div>
 
-    displayStory(decoded);
+<!-- audio -->
+<audio id="song1" src="assets/song1.mp3" loop preload="auto"></audio>
+<audio id="song2" src="assets/song2.mp3" loop preload="auto"></audio>
 
-  } catch (error) {
-    document.getElementById("storyContainer").innerHTML =
-      "<h2>Invalid story link 💔</h2>";
-  }
-}
-
-function displayStory(data) {
-  const container = document.getElementById("storyContainer");
-
-  let imagesHTML = "";
-
-  if (data.images && data.images.length > 0) {
-    data.images.forEach(img => {
-      imagesHTML += `<img src="${img}" class="story-image">`;
-    });
-  }
-
-  container.innerHTML = `
-    <h1>${data.sender} 💚 ${data.receiver}</h1>
-    <p><strong>Date:</strong> ${data.date}</p>
-    <p class="message">${data.message}</p>
-    ${imagesHTML}
-    <p class="footer">
-      If you want to reply 💌<br>
-      Contact: ${data.email}
-    </p>
-  `;
-}
-
-getStoryData();
-</script>
-
+<script src="app.js"></script>
 </body>
 </html>
